@@ -12,7 +12,7 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
 # Create your views here.
 def index(request):
-    return render(request, 'OfficeApp/index.html')
+    return render(request, 'index.html')
 
 def register_view(request):
     if request.method == "POST":
@@ -28,7 +28,7 @@ def register_view(request):
     else:
         # Use the correct Custom form
         form = CustomUserCreationForm()
-    return render(request, "OfficeApp/register.html", {"form": form})
+    return render(request, "register.html", {"form": form})
 
 def login_view(request):
     if request.method == "POST":
@@ -44,11 +44,11 @@ def login_view(request):
     else:
         # Use the correct Custom form
         form = CustomAuthenticationForm()
-    return render(request, "OfficeApp/login.html", {"form": form})
+    return render(request, "login.html", {"form": form})
 
 @login_required
 def profile_view(request):
-    return render(request, 'OfficeApp/profile.html')
+    return render(request, 'profile.html')
 
 @login_required
 def change_password_view(request):
@@ -69,7 +69,7 @@ def change_password_view(request):
         # THIS NOW USES THE CORRECT BUILT-IN FORM
         #
         form = PasswordChangeForm(request.user)
-    return render(request, 'OfficeApp/change_password.html', {'form': form})
+    return render(request, 'change_password.html', {'form': form})
 
 @login_required
 def logout_view(request):

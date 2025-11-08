@@ -2,26 +2,15 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from datetime import timedelta, datetime, date
 import re
-from OfficeBooker.OfficeApp.models import CustomUser
-
+from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
-    telefon = forms.CharField(required=True)
-    data_nastere = forms.DateField(required=True, widget=forms.SelectDateWidget(empty_label="Nothing", years=list(range(1900,date.today().year + 1))))
-    cod_postal = forms.IntegerField(required=True)
-    adresa = forms.CharField(required=True)
-    date = forms.BooleanField(required=True)
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ("name", "email", "password1", "password2", "telefon", "profile_pic")
+        fields = ("username", "email", "profile_pic")
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.telefon = self.cleaned_data["telefon"]
-        user.data_nastere = self.cleaned_data["data_nastere"]
-        user.cod_postal = self.cleaned_data["cod_postal"]
-        user.adresa = self.cleaned_data["adresa"]
-        user.date = self.cleaned_data["date"]
         if commit:
             user.save()
         return user
