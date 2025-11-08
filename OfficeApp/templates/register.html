@@ -79,27 +79,13 @@
     </style>
 </head>
 <body>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div>
             {{ form.username.label_tag }}
             {{ form.username }}
             {% if form.username.errors %}
                 <div class="error">{{ form.username.errors }}</div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.first_name.label_tag }}
-            {{ form.first_name }}
-            {% if form.first_name.errors %}
-                <div class="error">{{ form.first_name.errors }}</div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.last_name.label_tag }}
-            {{ form.last_name }}
-            {% if form.last_name.errors %}
-                <div class="error">{{ form.last_name.errors }}</div>
             {% endif %}
         </div>
         <div>
@@ -124,38 +110,10 @@
             {% endif %}
         </div>
         <div>
-            {{ form.telefon.label_tag }}
-            {{ form.telefon }}
-            {% if form.telefon.errors %}
-                <div class="error">{{ form.telefon.errors }}</div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.data_nastere.label_tag }}
-            {{ form.data_nastere }}
-            {% if form.data_nastere.errors %}
-                <div class="error">{{ form.data_nastere.errors }}</div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.cod_postal.label_tag }}
-            {{ form.cod_postal }}
-            {% if form.cod_postal.errors %}
-                <div class="error">{{ form.cod_postal.errors }}</div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.adresa.label_tag }}
-            {{ form.adresa }}
-            {% if form.adresa.errors %}
-                <div class="error">{{ form.adresa.errors }}</div>
-            {% endif %}
-        </div>
-        <div>
-            {{ form.date.label_tag }}
-            {{ form.date }}
-            {% if form.date.errors %}
-                <div class="error">{{ form.date.errors }}</div>
+            {{ form.profile_pic.label_tag }}
+            {{ form.profile_pic }}
+            {% if form.profile_pic.errors %}
+                <div class="error">{{ form.profile_pic.errors }}</div>
             {% endif %}
         </div>
         {% if form.non_field_errors %}
