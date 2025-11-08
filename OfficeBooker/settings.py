@@ -131,6 +131,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = True
 
 print("==========================================")
 print("MY SETTINGS ARE DEFINITELY LOADING!")

@@ -5,9 +5,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-#
-# THIS IS THE CORRECTED IMPORT
-#
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
 # Create your views here.
