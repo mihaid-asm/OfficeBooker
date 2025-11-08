@@ -22,7 +22,7 @@ def register_view(request):
             user = form.save()
             login(request, user)
             messages.success(request, "Registration successful." )
-            return redirect('index') # Or profile
+            return redirect('profile')
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
     else:
@@ -38,7 +38,7 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             messages.info(request, f"You are now logged in as {user.email}.")
-            return redirect('index') # Or profile
+            return redirect('profile')
         else:
             messages.error(request, "Invalid email or password.")
     else:
@@ -75,4 +75,4 @@ def change_password_view(request):
 def logout_view(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
-    return redirect('index')
+    return redirect('login')
