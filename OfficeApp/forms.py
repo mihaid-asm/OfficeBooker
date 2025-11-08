@@ -27,15 +27,7 @@ class CustomUserCreationForm(UserCreationForm):
         return user
 
 class CustomAuthenticationForm(AuthenticationForm):
-    ramane_logat = forms.BooleanField(
-        required=False,
-        initial=False,
-        label='Ramaneti logat'
-    )
-"""    def clean(self):
-        cleaned_data = super().clean()
-        ramane_logat = self.cleaned_data.get('ramane_logat')
-        return cleaned_data"""
+    username = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'autofocus': True}))
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     def clean_new_password1(self):

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'OfficeApp',
 ]
 
+AUTH_USER_MODEL = 'OfficeApp.CustomUser'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,12 +78,9 @@ WSGI_APPLICATION = 'OfficeBooker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'OPTIONS': {
-                'options': '-c search_path=django'
-        },
-        'NAME': 'MolsonCoors',
-        'USER': 'mihai',
-        'PASSWORD': 'l1nucs1_',
+        'NAME': 'molsoncoors',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }

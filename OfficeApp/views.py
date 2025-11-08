@@ -1,6 +1,8 @@
 import numpy as np
 from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from OfficeBooker.OfficeApp.forms import CustomUserCreationForm, CustomAuthenticationForm, CustomPasswordChangeForm
@@ -13,59 +15,51 @@ def index(request):
     return HttpResponse("Primul raspuns")
 
 def register_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            alnum = [chr(i) for i in range(ord('a'), ord('z')+1)] + [chr(i) for i in range(ord('A'), ord('Z')+1)] + [i for i in range(10)]
-            anlen = len(alnum)
-            code = ""
-            leng = np.floor(np.random.rand() * 11 + 15)
-            for i in range(leng):
-                code += alnum[np.floor(np.random.rand() * anlen)]
-            user = CustomUser.objects.get(username=form.cleaned_data['username'])
-            user.cod = code
-            user.save()
-            if len(form.cleaned_data["password"]) < 10:
-                messages.warning(request, "Va recomandam o parola cu minim 10 caractere.")
-            return redirect('login')
+            user = form.save()
+            login(request, user)
+            return redirect('index')
     else:
+
         form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, "users/register.html", {"form": form})
 
 def login_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('profile')
-        return redirect('profile')
+            return redirect('index')
     else:
         form = CustomAuthenticationForm()
-    messages.info(request, "V-ati logat.")
-    return render(request, 'login.html', {'form': form})
+    return render(request, "users/login.html", {"form": form})
 
 def profile_view(request):
     messages.debug(request, "Profilul este vizibil.")
     return render(request, 'profile.html')
 
+
+@login_required
 def change_password_view(request):
-    if request.method == 'POST':
-        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
-            form.save()
-            if len(form.cleaned_data["password"]) < 10:
-                messages.warning(request, "Va recomandam o parola cu minim 10 caractere.")
-            update_session_auth_hash(request, request.user)
-            messages.success(request, 'Parola a fost actualizata')
+            # BUG FIX: Call form.save() to save the new password
+            user = form.save()
+
+            # BUG FIX: Update the session to prevent logout
+            update_session_auth_hash(request, user)
+
+            messages.success(request, 'Your password was successfully updated!')
             return redirect('profile')
         else:
-            messages.error(request, 'Exista erori.')
+            messages.error(request, 'Please correct the error below.')
     else:
-        form = CustomPasswordChangeForm(user=request.user)
-    messages.success(request, "Parola schimbata cu succes.")
-    return render(request, 'schimba_parola.html', {'form': form})
+        form = PasswordChangeForm(request.user)
+    return render(request, 'users/change_password.html', {'form': form})
 
 def logout_view(request):
     logout(request)
